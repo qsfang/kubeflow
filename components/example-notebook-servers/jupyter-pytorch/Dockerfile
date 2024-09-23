@@ -7,14 +7,10 @@ FROM $BASE_IMG
 
 # args - software versions
 ARG PYTORCH_VERSION=2.3.0
-ARG TORCHAUDIO_VERSION=2.3.0
-ARG TORCHVISION_VERSION=0.18.0
 
 # install - pytorch (cpu)
 RUN python3 -m pip install --quiet --no-cache-dir --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple \
-    torch==${PYTORCH_VERSION} \
-    torchaudio==${TORCHAUDIO_VERSION} \
-    torchvision==${TORCHVISION_VERSION}
+    torch==${PYTORCH_VERSION} 
 
 # install - requirements.txt
 COPY --chown=${NB_USER}:${NB_GID} requirements.txt /tmp

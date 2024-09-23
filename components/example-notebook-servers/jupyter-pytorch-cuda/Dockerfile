@@ -7,8 +7,7 @@ FROM $BASE_IMG
 
 # args - software versions
 ARG PYTORCH_VERSION=2.3.0
-ARG TORCHAUDIO_VERSION=2.3.0
-ARG TORCHVISION_VERSION=0.18.0
+
 
 # nvidia container toolkit
 # https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/docker-specialized.html
@@ -18,9 +17,7 @@ ENV NVIDIA_REQUIRE_CUDA "cuda>=12.1"
 
 # install - pytorch (cuda)
 RUN python3 -m pip install --quiet --no-cache-dir --index-url https://download.pytorch.org/whl/cu121 \
-    torch==${PYTORCH_VERSION} \
-    torchaudio==${TORCHAUDIO_VERSION} \
-    torchvision==${TORCHVISION_VERSION}
+    torch==${PYTORCH_VERSION} 
 
 # install - requirements.txt
 COPY --chown=${NB_USER}:${NB_GID} requirements.txt /tmp
