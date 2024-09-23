@@ -13,8 +13,8 @@ IMAGE_FOLDERS ?= \
 	jupyter-tensorflow-full \
 	jupyter-tensorflow-cuda \
 	jupyter-tensorflow-cuda-full \
-	rstudio \
-	rstudio-tidyverse \
+	# rstudio \
+	# rstudio-tidyverse \
 
 # ------------------------------------------------------------------------------
 #  docker-build | build all images

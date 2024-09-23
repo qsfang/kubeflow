@@ -65,8 +65,12 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     wget \
     xz-utils \
     zip \
+    openssh-server \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ && ssh-keygen -A \
+ && chmod u+s /usr/bin/ssh-keygen \
+ && mkdir -p /run/sshd
 
 # install - s6 overlay
 RUN case "${TARGETARCH}" in \
@@ -93,11 +97,11 @@ RUN case "${TARGETARCH}" in \
 RUN chmod 0775 /run
 
 # install - kubectl
-RUN curl -fsSL "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/${TARGETARCH}/kubectl" -o /usr/local/bin/kubectl \
- && curl -fsSL "https://dl.k8s.io/${KUBECTL_VERSION}/bin/linux/${TARGETARCH}/kubectl.sha256" -o /tmp/kubectl.sha256 \
- && echo "$(cat /tmp/kubectl.sha256 | awk '{ print $1; }')  /usr/local/bin/kubectl" | sha256sum -c - \
- && rm /tmp/kubectl.sha256 \
- && chmod +x /usr/local/bin/kubectl
+# RUN curl -fsSL "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/${TARGETARCH}/kubectl" -o /usr/local/bin/kubectl \
+#  && curl -fsSL "https://dl.k8s.io/${KUBECTL_VERSION}/bin/linux/${TARGETARCH}/kubectl.sha256" -o /tmp/kubectl.sha256 \
+#  && echo "$(cat /tmp/kubectl.sha256 | awk '{ print $1; }')  /usr/local/bin/kubectl" | sha256sum -c - \
+#  && rm /tmp/kubectl.sha256 \
+#  && chmod +x /usr/local/bin/kubectl
 
 # create user and set required ownership
 RUN useradd -M -N \

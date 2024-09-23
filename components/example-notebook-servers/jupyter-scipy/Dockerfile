@@ -20,7 +20,7 @@ USER $NB_UID
 
 # install - conda packages
 # NOTE: we use mamba to speed things up
-RUN mamba install -y -q \
+RUN python3 -m pip install --quiet --no-cache-dir  --index-url https://pypi.org/simple \
     altair \
     beautifulsoup4==4.12.3 \
     bokeh==3.3.4 \
@@ -34,12 +34,12 @@ RUN mamba install -y -q \
     matplotlib==3.8.4 \
     numba \
     numexpr \
-    openblas==0.3.25 \
+    scipy-openblas64 \
     openpyxl \
     pandas==2.1.4 \
     patsy \
     protobuf \
-    pytables==3.9.2 \
+    tables \
     scikit-image==0.22.0 \
     scikit-learn==1.3.2 \
     scipy==1.11.3 \
@@ -48,9 +48,8 @@ RUN mamba install -y -q \
     statsmodels \
     sympy \
     vincent \
-    xlrd \
- && mamba clean -a -f -y
-
+    xlrd 
+    
 # install - requirements.txt
 COPY --chown=${NB_USER}:${NB_GID} requirements.txt /tmp
 RUN python3 -m pip install -r /tmp/requirements.txt --quiet --no-cache-dir \

@@ -54,25 +54,23 @@ RUN case "${TARGETARCH}" in \
       ppc64le) MINIFORGE_ARCH="ppc64le" ;; \
       *) echo "Unsupported architecture: ${TARGETARCH}"; exit 1 ;; \
     esac \
- && curl -fsSL "https://github.com/conda-forge/miniforge/releases/download/${MINIFORGE_VERSION}/Miniforge3-${MINIFORGE_VERSION}-Linux-${MINIFORGE_ARCH}.sh" -o /tmp/Miniforge3.sh \
- && curl -fsSL "https://github.com/conda-forge/miniforge/releases/download/${MINIFORGE_VERSION}/Miniforge3-${MINIFORGE_VERSION}-Linux-${MINIFORGE_ARCH}.sh.sha256" -o /tmp/Miniforge3.sh.sha256 \
- && echo "$(cat /tmp/Miniforge3.sh.sha256 | awk '{ print $1; }')  /tmp/Miniforge3.sh" | sha256sum -c - \
- && rm /tmp/Miniforge3.sh.sha256 \
- && /bin/bash /tmp/Miniforge3.sh -b -f -p ${CONDA_DIR} \
- && rm /tmp/Miniforge3.sh \
+ && curl -fsSL "https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-py311_24.5.0-0-Linux-x86_64.sh" -o /tmp/Miniconda3-py311_24.5.0-0-Linux-x86_64.sh \
+ && /bin/bash /tmp/Miniconda3-py311_24.5.0-0-Linux-x86_64.sh -b -f -p ${CONDA_DIR} \
+ && rm /tmp/Miniconda3-py311_24.5.0-0-Linux-x86_64.sh \
  && conda config --system --set auto_update_conda false \
  && conda config --system --set show_channel_urls true \
  && echo "python ==${PYTHON_VERSION}" >> ${CONDA_DIR}/conda-meta/pinned \
  && conda install -y -q \
     python=${PYTHON_VERSION} \
     pip=${PIP_VERSION} \
+ && conda install -n base --override-channels -c conda-forge mamba 'python_abi=*=*cp*' \
  && conda update -y -q --all \
  && conda clean -a -f -y
 
 # install - jupyter
 RUN echo "jupyterlab ==${JUPYTERLAB_VERSION}" >> ${CONDA_DIR}/conda-meta/pinned \
  && echo "notebook ==${JUPYTER_VERSION}" >> ${CONDA_DIR}/conda-meta/pinned \
- && conda install -y -q \
+ && conda install -c conda-forge -y -q \
     jupyterlab==${JUPYTERLAB_VERSION} \
     notebook==${JUPYTER_VERSION} \
  && conda clean -a -f -y
