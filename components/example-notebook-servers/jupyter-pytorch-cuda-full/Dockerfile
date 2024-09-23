@@ -7,7 +7,7 @@ FROM $BASE_IMG
 
 # install - conda packages
 # NOTE: we use mamba to speed things up
-RUN mamba install -y -q \
+RUN python3 -m pip install --quiet --no-cache-dir --index-url https://pypi.org/simple  \
     bokeh==3.3.4 \
     cloudpickle==2.2.1 \
     dill==0.3.8 \
@@ -19,10 +19,9 @@ RUN mamba install -y -q \
     scikit-learn==1.3.2 \
     scipy==1.11.3 \
     seaborn==0.13.2 \
-    xgboost==1.7.6 \
- && mamba clean -a -f -y
+    xgboost==1.7.6 
 
 # install - requirements.txt
 COPY --chown=${NB_USER}:${NB_GID} requirements.txt /tmp/requirements.txt
 RUN python3 -m pip install -r /tmp/requirements.txt --quiet --no-cache-dir \
- && rm -f /tmp/requirements.txt
+    && rm -f /tmp/requirements.txt
