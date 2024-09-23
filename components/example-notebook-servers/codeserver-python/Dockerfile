@@ -63,4 +63,5 @@ RUN code-server --install-extension "ms-python.python@${CODESERVER_PYTHON_VERSIO
 #       and the contents of $HOME will be hidden
 RUN cp -p -r -T "${HOME}" "${HOME_TMP}" \
     # give group same access as user (needed for OpenShift)
- && chmod -R g=u "${HOME_TMP}"
+    # modified for mh 
+ && chmod -R a=u "${HOME_TMP}"
