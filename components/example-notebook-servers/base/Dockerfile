@@ -69,7 +69,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
  && ssh-keygen -A \
- && chmod u+s /usr/bin/ssh-keygen \
+ && chmod u+s /usr/sbin/sshd \
  && mkdir -p /run/sshd
 
 # install - s6 overlay
